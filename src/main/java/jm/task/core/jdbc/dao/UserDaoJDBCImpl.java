@@ -37,16 +37,16 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void createUsersTable() {
-        try (Statement statement = getConnection().createStatement()) {
-            statement.executeUpdate(CREATE_TABLE);
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(CREATE_TABLE)) {
+            preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             System.err.println("Ошибка при создании таблицы");
         }
     }
 
     public void dropUsersTable() {
-        try (Statement statement = getConnection().createStatement()) {
-            statement.executeUpdate(DROP_TABLE);
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(DROP_TABLE)) {
+            preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             System.err.println("Ошибка при удалении таблицы");
         }
@@ -57,7 +57,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastName);
             preparedStatement.setByte(3, age);
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             System.out.println("User с именем – " + name + " добавлен в базу данных");
         } catch (SQLException throwables) {
             System.err.println("Ошибка при добавлении пользователя");
@@ -75,7 +75,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL)) {
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(GET_ALL)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 User user = new User();
@@ -92,7 +92,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void cleanUsersTable() {
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(TRUNCATE)) {
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(TRUNCATE)) {
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             System.err.println("Ошибка при очистке содержания таблицы");
