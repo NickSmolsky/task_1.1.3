@@ -26,7 +26,7 @@ public class UserDaoJDBCImpl implements UserDao {
         Connection connection = null;
         try {
             connection = Util.getConnect();
-        } catch (SQLException throwables) {
+        } catch (SQLException e) {
             System.err.println("Ошибка подключения к БД");
         }
         return connection;
@@ -39,7 +39,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void createUsersTable() {
         try (PreparedStatement preparedStatement = getConnection().prepareStatement(CREATE_TABLE)) {
             preparedStatement.executeUpdate();
-        } catch (SQLException throwables) {
+        } catch (SQLException e) {
             System.err.println("Ошибка при создании таблицы");
         }
     }
@@ -47,7 +47,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void dropUsersTable() {
         try (PreparedStatement preparedStatement = getConnection().prepareStatement(DROP_TABLE)) {
             preparedStatement.executeUpdate();
-        } catch (SQLException throwables) {
+        } catch (SQLException e) {
             System.err.println("Ошибка при удалении таблицы");
         }
     }
@@ -59,7 +59,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.setByte(3, age);
             preparedStatement.executeUpdate();
             System.out.println("User с именем – " + name + " добавлен в базу данных");
-        } catch (SQLException throwables) {
+        } catch (SQLException e) {
             System.err.println("Ошибка при добавлении пользователя");
         }
     }
@@ -68,7 +68,7 @@ public class UserDaoJDBCImpl implements UserDao {
         try (PreparedStatement preparedStatement = getConnection().prepareStatement(DELETE_BY_ID)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
-        } catch (SQLException throwables) {
+        } catch (SQLException e) {
             System.err.println("Ошибка при удалении пользователя");
         }
     }
@@ -85,7 +85,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 user.setAge(resultSet.getByte("age"));
                 users.add(user);
             }
-        } catch (SQLException throwables) {
+        } catch (SQLException e) {
             System.err.println("Ошибка при получении списка из таблицы");
         }
         return users;
@@ -94,7 +94,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void cleanUsersTable() {
         try (PreparedStatement preparedStatement = getConnection().prepareStatement(TRUNCATE)) {
             preparedStatement.executeUpdate();
-        } catch (SQLException throwables) {
+        } catch (SQLException e) {
             System.err.println("Ошибка при очистке содержания таблицы");
         }
     }
