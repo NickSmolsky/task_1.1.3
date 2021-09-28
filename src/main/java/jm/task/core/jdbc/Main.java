@@ -8,7 +8,7 @@ import jm.task.core.jdbc.util.Util;
 import java.sql.SQLException;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         User user1 = new User("Robert", "Plant", (byte) 73);
         User user2 = new User("Jimmy", "Page", (byte) 77);
         User user3 = new User("John", "Bonham", (byte) 32);
